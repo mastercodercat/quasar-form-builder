@@ -1,4 +1,4 @@
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref, watch } from 'vue';
 
 export const FormElement = defineComponent({
   props: {
@@ -45,7 +45,19 @@ interface FormElementProps {
   id?: string;
 }
 
-const useForm = ({ options }: FormElementProps) => {
+const useForm = ({ options, value, required, label }: FormElementProps) => {
+  const innerValue = ref(value);
+
+  watch(
+    () => value,
+    (v) => {
+      innerValue.value = v;
+    }
+  );
+
+  const getLabel = computed(() => {
+    return required ? `${label} *` : label;
+  });
   const hint = computed(() => {
     return options && options?.description ? options.description : '';
   });
@@ -68,6 +80,9 @@ const useForm = ({ options }: FormElementProps) => {
   };
 
   return {
+    innerValue,
+
+    getLabel,
     hint,
     rules,
 

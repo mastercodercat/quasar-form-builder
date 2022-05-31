@@ -98,9 +98,14 @@ import { uid } from 'quasar';
 import { defineComponent, ref } from 'vue';
 import Draggable from 'vuedraggable';
 
+import ElementContainer from 'components/ElementContainer.vue';
+import ElementOptions from 'components/options/ElementOptions.vue';
+
 export default defineComponent({
   components: {
     Draggable,
+    ElementContainer,
+    ElementOptions,
   },
   setup() {
     const tab = ref('add');
