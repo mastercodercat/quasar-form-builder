@@ -17,6 +17,7 @@ import { defineComponent, computed, PropType } from 'vue';
 import AddressElement from './elements/AddressElement.vue';
 import CheckboxesElement from './elements/CheckboxesElement.vue';
 import TextElement from './elements/TextElement.vue';
+import ParagraphElement from './elements/ParagraphElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -25,6 +26,7 @@ export default defineComponent({
     AddressElement,
     CheckboxesElement,
     TextElement,
+    ParagraphElement,
   },
   props: {
     value: {

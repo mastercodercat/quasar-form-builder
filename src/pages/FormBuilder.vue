@@ -121,6 +121,7 @@ import ElementOptions from 'components/options/ElementOptions.vue';
 import AddressElement from 'components/elements/AddressElement.vue';
 import CheckboxesElement from 'components/elements/CheckboxesElement.vue';
 import TextElement from 'components/elements/TextElement.vue';
+import ParagraphElement from 'components/elements/ParagraphElement.vue';
 
 export default defineComponent({
   components: {
@@ -130,6 +131,7 @@ export default defineComponent({
     AddressElement,
     CheckboxesElement,
     TextElement,
+    ParagraphElement,
   },
   setup() {
     const tab = ref('add');
