@@ -118,9 +118,9 @@ import Draggable from 'vuedraggable';
 
 import ElementContainer from 'components/ElementContainer.vue';
 import ElementOptions from 'components/options/ElementOptions.vue';
-import AddressElement from './elements/AddressElement.vue';
-import CheckboxesElement from './elements/AddressElement.vue';
-import TextElement from './elements/AddressElement.vue';
+import AddressElement from 'components/elements/AddressElement.vue';
+import CheckboxesElement from 'components/elements/CheckboxesElement.vue';
+import TextElement from 'components/elements/TextElement.vue';
 
 export default defineComponent({
   components: {
