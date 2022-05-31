@@ -88,6 +88,24 @@
             </div>
           </template>
         </draggable>
+
+        <q-separator />
+
+        <div class="q-pa-md q-form-container">
+          <h4>Form Rendering</h4>
+          <div v-for="(field, index) in fields" :key="index">
+            <component
+              v-model="fieldData[field.cid]"
+              v-bind:is="getElement(field)"
+              :label="field.label"
+              :required="field.required"
+              :options="field.options"
+              :id="field.cid"
+              :cid="field.cid"
+              :ref="field.cid"
+            />
+          </div>
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -100,12 +118,18 @@ import Draggable from 'vuedraggable';
 
 import ElementContainer from 'components/ElementContainer.vue';
 import ElementOptions from 'components/options/ElementOptions.vue';
+import AddressElement from './elements/AddressElement.vue';
+import CheckboxesElement from './elements/AddressElement.vue';
+import TextElement from './elements/AddressElement.vue';
 
 export default defineComponent({
   components: {
     Draggable,
     ElementContainer,
     ElementOptions,
+    AddressElement,
+    CheckboxesElement,
+    TextElement,
   },
   setup() {
     const tab = ref('add');
