@@ -1,0 +1,60 @@
+<template>
+  <div class="q-editable-element">
+    <div class="overlay"></div>
+    <component
+      v-bind:is="element"
+      :label="value.label"
+      :required="value.required"
+      :options="value.options"
+      :id="value?.id || value.cid"
+      :cid="value.cid"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed, PropType } from 'vue';
+import AddressElement from './elements/AddressElement.vue';
+import { Element } from './models';
+
+export default defineComponent({
+  name: 'ElementContainer',
+  components: {
+    AddressElement,
+  },
+  props: {
+    value: {
+      type: Object as PropType<Element>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const element = computed(() => {
+      const elementName = props.value.type
+        .split('_')
+        .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join('');
+
+      return `${elementName}Element`;
+    });
+
+    return {
+      element,
+    };
+  },
+});
+</script>
+
+<style lang="scss">
+.q-editable-element {
+  position: relative;
+  padding: 5px;
+}
+.overlay {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+</style>
