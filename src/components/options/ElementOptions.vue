@@ -24,17 +24,20 @@
       v-if="ifNotTypes(['section_break', 'page_break'])"
     />
     <checkbox-options :value="innerValue.options" v-if="ifType('checkboxes')" />
+    <radio-options :value="innerValue.options" v-if="ifType('radio')" />
   </form>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch, computed, PropType } from 'vue';
 import CheckboxOptions from './CheckboxOptions.vue';
+import RadioOptions from './RadioOptions.vue';
 
 export default defineComponent({
   name: 'ElementOptions',
   components: {
     CheckboxOptions,
+    RadioOptions,
   },
   props: {
     value: {

@@ -122,6 +122,7 @@ import AddressElement from 'components/elements/AddressElement.vue';
 import CheckboxesElement from 'components/elements/CheckboxesElement.vue';
 import TextElement from 'components/elements/TextElement.vue';
 import ParagraphElement from 'components/elements/ParagraphElement.vue';
+import RadioElement from 'components/elements/RadioElement.vue';
 
 export default defineComponent({
   components: {
@@ -132,6 +133,7 @@ export default defineComponent({
     CheckboxesElement,
     TextElement,
     ParagraphElement,
+    RadioElement,
   },
   setup() {
     const tab = ref('add');
