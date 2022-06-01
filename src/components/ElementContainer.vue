@@ -22,6 +22,7 @@ import RadioElement from './elements/RadioElement.vue';
 import DateElement from './elements/DateElement.vue';
 import DropdownElement from './elements/DropdownElement.vue';
 import EmailElement from './elements/EmailElement.vue';
+import FileElement from './elements/FileElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -35,6 +36,7 @@ export default defineComponent({
     DateElement,
     DropdownElement,
     EmailElement,
+    FileElement,
   },
   props: {
     value: {
