@@ -19,6 +19,7 @@ import CheckboxesElement from './elements/CheckboxesElement.vue';
 import TextElement from './elements/TextElement.vue';
 import ParagraphElement from './elements/ParagraphElement.vue';
 import RadioElement from './elements/RadioElement.vue';
+import DateElement from './elements/DateElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -29,6 +30,7 @@ export default defineComponent({
     TextElement,
     ParagraphElement,
     RadioElement,
+    DateElement,
   },
   props: {
     value: {
