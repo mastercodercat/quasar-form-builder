@@ -29,6 +29,7 @@ import PaymentElement from './elements/PaymentElement.vue';
 import PhoneElement from './elements/PhoneElement.vue';
 import SectionBreakElement from './elements/SectionBreakElement.vue';
 import SimpleNameElement from './elements/SimpleNameElement.vue';
+import TermsElement from './elements/TermsElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -49,6 +50,7 @@ export default defineComponent({
     PhoneElement,
     SectionBreakElement,
     SimpleNameElement,
+    TermsElement,
   },
   props: {
     value: {
