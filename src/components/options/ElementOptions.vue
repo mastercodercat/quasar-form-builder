@@ -25,6 +25,7 @@
     />
     <checkbox-options :value="innerValue.options" v-if="ifType('checkboxes')" />
     <radio-options :value="innerValue.options" v-if="ifType('radio')" />
+    <dropdown-options :value="innerValue.options" v-if="ifType('dropdown')" />
   </form>
 </template>
 
@@ -32,12 +33,14 @@
 import { defineComponent, ref, watch, computed, PropType } from 'vue';
 import CheckboxOptions from './CheckboxOptions.vue';
 import RadioOptions from './RadioOptions.vue';
+import DropdownOptions from './DropdownOptions.vue';
 
 export default defineComponent({
   name: 'ElementOptions',
   components: {
     CheckboxOptions,
     RadioOptions,
+    DropdownOptions,
   },
   props: {
     value: {

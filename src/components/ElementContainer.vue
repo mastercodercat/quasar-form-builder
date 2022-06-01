@@ -20,6 +20,7 @@ import TextElement from './elements/TextElement.vue';
 import ParagraphElement from './elements/ParagraphElement.vue';
 import RadioElement from './elements/RadioElement.vue';
 import DateElement from './elements/DateElement.vue';
+import DropdownElement from './elements/DropdownElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -31,6 +32,7 @@ export default defineComponent({
     ParagraphElement,
     RadioElement,
     DateElement,
+    DropdownElement,
   },
   props: {
     value: {
