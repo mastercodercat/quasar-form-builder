@@ -1,77 +1,63 @@
 <template>
   <div class="q-editable-element">
-    <div class="overlay"></div>
-    <component
-      v-bind:is="element"
+    <div class="overlay" v-show="value.type !== 'grid'"></div>
+    <component-container :value="value" v-if="value.type !== 'grid'" />
+    <grid-element
       :label="value.label"
       :required="value.required"
       :options="value.options"
       :id="value?.id || value.cid"
       :cid="value.cid"
+      :duplicateField="duplicateField"
+      :deleteField="deleteField"
+      :isSelectedForEdit="isSelectedForEdit"
+      @change="onGridChange"
+      @subclick="onGridSubClick"
+      v-else
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
-import AddressElement from './elements/AddressElement.vue';
-import CheckboxesElement from './elements/CheckboxesElement.vue';
-import TextElement from './elements/TextElement.vue';
-import ParagraphElement from './elements/ParagraphElement.vue';
-import RadioElement from './elements/RadioElement.vue';
-import DateElement from './elements/DateElement.vue';
-import DropdownElement from './elements/DropdownElement.vue';
-import EmailElement from './elements/EmailElement.vue';
-import FileElement from './elements/FileElement.vue';
-import NameElement from './elements/NameElement.vue';
-import PageBreakElement from './elements/PageBreakElement.vue';
-import PaymentElement from './elements/PaymentElement.vue';
-import PhoneElement from './elements/PhoneElement.vue';
-import SectionBreakElement from './elements/SectionBreakElement.vue';
-import SimpleNameElement from './elements/SimpleNameElement.vue';
-import TermsElement from './elements/TermsElement.vue';
-import TimeElement from './elements/TimeElement.vue';
+import { defineComponent, PropType } from 'vue';
+import GridElement from './elements/GridElement.vue';
+import ComponentContainer from './ComponentContainer.vue';
 import { Element } from './models';
 
 export default defineComponent({
   name: 'ElementContainer',
   components: {
-    AddressElement,
-    CheckboxesElement,
-    TextElement,
-    ParagraphElement,
-    RadioElement,
-    DateElement,
-    DropdownElement,
-    EmailElement,
-    FileElement,
-    NameElement,
-    PageBreakElement,
-    PaymentElement,
-    PhoneElement,
-    SectionBreakElement,
-    SimpleNameElement,
-    TermsElement,
-    TimeElement,
+    ComponentContainer,
+    GridElement,
   },
   props: {
     value: {
       type: Object as PropType<Element>,
       required: true,
     },
+    duplicateField: {
+      type: Function,
+    },
+    deleteField: {
+      type: Function,
+    },
+    isSelectedForEdit: {
+      type: Function,
+    },
   },
-  setup(props) {
-    const element = computed(() => {
-      const elementName = props.value.type
-        .split('_')
-        .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join('');
+  emits: ['change', 'subclick'],
+  setup(props, { emit }) {
+    const onGridChange = (value: Array<Element>) => {
+      emit('change', value);
+    };
 
-      return `${elementName}Element`;
-    });
+    const onGridSubClick = (index: number) => {
+      emit('subclick', index);
+    };
 
     return {
-      element,
+      onGridChange,
+      onGridSubClick,
     };
   },
 });

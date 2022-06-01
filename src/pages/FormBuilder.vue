@@ -58,7 +58,12 @@
                 :value="element"
                 :class="{ selected: isSelectedForEdit(index) }"
                 :ref="element.cid"
-                @click="() => selectForEdit(element)"
+                :isSelectedForEdit="(cid) => isSelectedForEdit(index, cid)"
+                :duplicateField="(cid) => duplicateField(index, cid)"
+                :deleteField="(cid) => deleteField(index, cid)"
+                @subclick="(cid) => onGridClick(index, cid)"
+                @click.stop="() => selectForEdit(element)"
+                @change="(value) => onGridChange(element, value)"
               />
               <div
                 class="element-action-buttons"
@@ -103,7 +108,25 @@
               :id="field.cid"
               :cid="field.cid"
               :ref="field.cid"
+              v-if="field.type !== 'grid'"
             />
+            <div class="row" v-else>
+              <div
+                v-for="(fld, idx) in field.options.fields"
+                :key="`grid-${idx}`"
+              >
+                <component
+                  v-model="fieldData[fld.cid]"
+                  v-bind:is="getElement(fld)"
+                  :label="fld.label"
+                  :required="fld.required"
+                  :options="fld.options"
+                  :id="fld.cid"
+                  :cid="fld.cid"
+                  :ref="fld.cid"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </q-page>
@@ -120,20 +143,20 @@ import ElementContainer from 'components/ElementContainer.vue';
 import ElementOptions from 'components/options/ElementOptions.vue';
 import AddressElement from 'components/elements/AddressElement.vue';
 import CheckboxesElement from 'components/elements/CheckboxesElement.vue';
-import TextElement from 'components/elements/TextElement.vue';
-import ParagraphElement from 'components/elements/ParagraphElement.vue';
-import RadioElement from 'components/elements/RadioElement.vue';
 import DateElement from 'components/elements/DateElement.vue';
 import DropdownElement from 'components/elements/DropdownElement.vue';
 import EmailElement from 'components/elements/EmailElement.vue';
 import FileElement from 'components/elements/FileElement.vue';
 import NameElement from 'components/elements/NameElement.vue';
 import PageBreakElement from 'components/elements/PageBreakElement.vue';
+import ParagraphElement from 'components/elements/ParagraphElement.vue';
 import PaymentElement from 'components/elements/PaymentElement.vue';
 import PhoneElement from 'components/elements/PhoneElement.vue';
+import RadioElement from 'components/elements/RadioElement.vue';
 import SectionBreakElement from 'components/elements/SectionBreakElement.vue';
 import SimpleNameElement from 'components/elements/SimpleNameElement.vue';
 import TermsElement from 'components/elements/TermsElement.vue';
+import TextElement from 'components/elements/TextElement.vue';
 import TimeElement from 'components/elements/TimeElement.vue';
 
 export default defineComponent({
@@ -143,20 +166,20 @@ export default defineComponent({
     ElementOptions,
     AddressElement,
     CheckboxesElement,
-    TextElement,
-    ParagraphElement,
-    RadioElement,
     DateElement,
     DropdownElement,
     EmailElement,
     FileElement,
     NameElement,
     PageBreakElement,
+    ParagraphElement,
     PaymentElement,
     PhoneElement,
+    RadioElement,
     SectionBreakElement,
     SimpleNameElement,
     TermsElement,
+    TextElement,
     TimeElement,
   },
   setup() {
@@ -170,8 +193,17 @@ export default defineComponent({
       tab.value = 'edit';
     };
 
-    const isSelectedForEdit = (index) => {
-      return currentField.value.cid === fields.value[index].cid;
+    const isSelectedForEdit = (index, cid) => {
+      if (!currentField.value) {
+        return false;
+      }
+      if (cid === undefined) {
+        return currentField.value.cid === fields.value[index].cid;
+      } else {
+        return (
+          currentField.value.cid === fields.value[index].options.fields[cid].cid
+        );
+      }
     };
 
     const createField = (item) => {
@@ -197,19 +229,43 @@ export default defineComponent({
       }
     };
 
-    const deleteField = (index) => {
+    const deleteField = (index, cid) => {
       currentField.value = false;
       tab.value = 'add';
-      fields.value = fields.value.filter((_, idx) => idx !== index);
+      if (cid === undefined) {
+        fields.value = fields.value.filter((_, idx) => idx !== index);
+      } else {
+        fields.value = fields.value.map((field, idx) => {
+          if (idx === index) {
+            return {
+              ...field,
+              options: {
+                ...field.options,
+                fields: field.options.fields.filter((_, ix) => ix !== cid),
+              },
+            };
+          }
+          return field;
+        });
+      }
     };
 
-    const duplicateField = (index) => {
-      const duplicated = {
-        ...fields.value[index],
-        cid: uid(),
-      };
-      fields.value.splice(index + 1, 0, duplicated);
-      selectForEdit(duplicated);
+    const duplicateField = (index, cid) => {
+      if (cid === undefined) {
+        const duplicated = {
+          ...fields.value[index],
+          cid: uid(),
+        };
+        fields.value.splice(index + 1, 0, duplicated);
+        selectForEdit(duplicated);
+      } else {
+        const duplicated = {
+          ...fields.value[index].options.fields[cid],
+          cid: uid(),
+        };
+        fields.value[index].options.fields.splice(cid + 1, 0, duplicated);
+        selectForEdit(duplicated);
+      }
     };
 
     const getElement = (field) => {
@@ -219,6 +275,19 @@ export default defineComponent({
         .join('');
 
       return `${elementName}Element`;
+    };
+
+    const onGridChange = (element, value) => {
+      element.options = {
+        ...element.options,
+        fields: value,
+      };
+    };
+
+    const onGridClick = (index, cid) => {
+      currentField.value = fields.value[index].options.fields[cid];
+      tab.value = 'edit';
+      console.log(currentField.value);
     };
 
     return {
@@ -266,6 +335,12 @@ export default defineComponent({
           label: 'Page Break',
           id: 17,
         },
+        {
+          type: 'grid',
+          icon: 'grid_on',
+          label: 'Grid',
+          id: 18,
+        },
       ],
       sourceOptions: {
         name: 'q-form-builder',
@@ -274,7 +349,7 @@ export default defineComponent({
       },
       destinationOptions: {
         name: 'q-form-builder',
-        pull: false,
+        pull: true,
         put: true,
       },
       selectForEdit,
@@ -285,6 +360,8 @@ export default defineComponent({
       duplicateField,
       getElement,
       onChange,
+      onGridChange,
+      onGridClick,
     };
   },
 });
