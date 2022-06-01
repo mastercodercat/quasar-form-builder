@@ -24,6 +24,7 @@ import DropdownElement from './elements/DropdownElement.vue';
 import EmailElement from './elements/EmailElement.vue';
 import FileElement from './elements/FileElement.vue';
 import NameElement from './elements/NameElement.vue';
+import PageBreakElement from './elements/PageBreakElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -39,6 +40,7 @@ export default defineComponent({
     EmailElement,
     FileElement,
     NameElement,
+    PageBreakElement,
   },
   props: {
     value: {
