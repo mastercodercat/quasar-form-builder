@@ -28,6 +28,7 @@ import PageBreakElement from './elements/PageBreakElement.vue';
 import PaymentElement from './elements/PaymentElement.vue';
 import PhoneElement from './elements/PhoneElement.vue';
 import SectionBreakElement from './elements/SectionBreakElement.vue';
+import SimpleNameElement from './elements/SimpleNameElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -47,6 +48,7 @@ export default defineComponent({
     PaymentElement,
     PhoneElement,
     SectionBreakElement,
+    SimpleNameElement,
   },
   props: {
     value: {
