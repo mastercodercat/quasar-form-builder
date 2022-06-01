@@ -26,6 +26,7 @@ import FileElement from './elements/FileElement.vue';
 import NameElement from './elements/NameElement.vue';
 import PageBreakElement from './elements/PageBreakElement.vue';
 import PaymentElement from './elements/PaymentElement.vue';
+import PhoneElement from './elements/PhoneElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -43,6 +44,7 @@ export default defineComponent({
     NameElement,
     PageBreakElement,
     PaymentElement,
+    PhoneElement,
   },
   props: {
     value: {
