@@ -30,6 +30,7 @@ import PhoneElement from './elements/PhoneElement.vue';
 import SectionBreakElement from './elements/SectionBreakElement.vue';
 import SimpleNameElement from './elements/SimpleNameElement.vue';
 import TermsElement from './elements/TermsElement.vue';
+import TimeElement from './elements/TimeElement.vue';
 import { Element } from './models';
 
 export default defineComponent({
@@ -51,6 +52,7 @@ export default defineComponent({
     SectionBreakElement,
     SimpleNameElement,
     TermsElement,
+    TimeElement,
   },
   props: {
     value: {
