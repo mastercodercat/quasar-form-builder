@@ -123,6 +123,18 @@ import CheckboxesElement from 'components/elements/CheckboxesElement.vue';
 import TextElement from 'components/elements/TextElement.vue';
 import ParagraphElement from 'components/elements/ParagraphElement.vue';
 import RadioElement from 'components/elements/RadioElement.vue';
+import DateElement from 'components/elements/DateElement.vue';
+import DropdownElement from 'components/elements/DropdownElement.vue';
+import EmailElement from 'components/elements/EmailElement.vue';
+import FileElement from 'components/elements/FileElement.vue';
+import NameElement from 'components/elements/NameElement.vue';
+import PageBreakElement from 'components/elements/PageBreakElement.vue';
+import PaymentElement from 'components/elements/PaymentElement.vue';
+import PhoneElement from 'components/elements/PhoneElement.vue';
+import SectionBreakElement from 'components/elements/SectionBreakElement.vue';
+import SimpleNameElement from 'components/elements/SimpleNameElement.vue';
+import TermsElement from 'components/elements/TermsElement.vue';
+import TimeElement from 'components/elements/TimeElement.vue';
 
 export default defineComponent({
   components: {
@@ -134,6 +146,18 @@ export default defineComponent({
     TextElement,
     ParagraphElement,
     RadioElement,
+    DateElement,
+    DropdownElement,
+    EmailElement,
+    FileElement,
+    NameElement,
+    PageBreakElement,
+    PaymentElement,
+    PhoneElement,
+    SectionBreakElement,
+    SimpleNameElement,
+    TermsElement,
+    TimeElement,
   },
   setup() {
     const tab = ref('add');
