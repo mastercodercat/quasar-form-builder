@@ -38,6 +38,24 @@
           <element-options :value="currentField" :types="sourceFields" />
         </q-tab-panel>
       </q-tab-panels>
+      <div class="q-pa-md" style="max-width: 400px">
+        <q-form @submit="onCreate" class="q-gutter-md">
+          <q-input
+            filled
+            v-model="name"
+            label="Form Name *"
+            hint="Form Name"
+            lazy-rules
+            :rules="[
+              (val) => (val && val.length > 0) || 'Please type form name',
+            ]"
+          />
+
+          <div>
+            <q-btn label="Create" type="submit" color="primary" />
+          </div>
+        </q-form>
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -135,9 +153,11 @@
 </template>
 
 <script>
-import { uid } from 'quasar';
+import { uid, useQuasar } from 'quasar';
 import { defineComponent, ref } from 'vue';
 import Draggable from 'vuedraggable';
+import { useQuery, useMutation } from '@vue/apollo-composable';
+import gql from 'graphql-tag';
 
 import ElementContainer from 'components/ElementContainer.vue';
 import ElementOptions from 'components/options/ElementOptions.vue';
@@ -183,10 +203,23 @@ export default defineComponent({
     TimeElement,
   },
   setup() {
+    const $q = useQuasar();
     const tab = ref('add');
     const fields = ref([]);
     const fieldData = ref([]);
+    const name = ref('');
     const currentField = ref(false);
+    const { mutate: createForm } = useMutation(gql`
+      mutation createForm($name: String!, $form: String!) {
+        createForm(name: $name, form: $form) {
+          id
+          name
+          createdAt
+          updatedAt
+          form
+        }
+      }
+    `);
 
     const selectForEdit = (field) => {
       currentField.value = field;
@@ -290,11 +323,22 @@ export default defineComponent({
       console.log(currentField.value);
     };
 
+    const onCreate = async () => {
+      const form = JSON.stringify(fields.value);
+      const result = await createForm({
+        name: name.value,
+        form,
+      });
+      $q.notify(`Form ${name.value} created!`, 'success');
+      console.log(result);
+    };
+
     return {
       drawer: ref(true),
       fieldData,
       fields,
       tab,
+      name,
       currentField,
       drag: ref(false),
       sourceFields: [
@@ -362,6 +406,7 @@ export default defineComponent({
       onChange,
       onGridChange,
       onGridClick,
+      onCreate,
     };
   },
 });
