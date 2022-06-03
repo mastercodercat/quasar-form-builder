@@ -26,6 +26,7 @@
     <checkbox-options :value="innerValue.options" v-if="ifType('checkboxes')" />
     <radio-options :value="innerValue.options" v-if="ifType('radio')" />
     <dropdown-options :value="innerValue.options" v-if="ifType('dropdown')" />
+    <grid-options :value="innerValue.options" v-if="ifType('grid')" />
   </form>
 </template>
 
@@ -34,6 +35,7 @@ import { defineComponent, ref, watch, computed, PropType } from 'vue';
 import CheckboxOptions from './CheckboxOptions.vue';
 import RadioOptions from './RadioOptions.vue';
 import DropdownOptions from './DropdownOptions.vue';
+import GridOptions from './GridOptions.vue';
 
 export default defineComponent({
   name: 'ElementOptions',
@@ -41,6 +43,7 @@ export default defineComponent({
     CheckboxOptions,
     RadioOptions,
     DropdownOptions,
+    GridOptions,
   },
   props: {
     value: {

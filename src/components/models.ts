@@ -7,6 +7,7 @@ export interface Element {
   options: {
     fields: Array<Element>;
     description: string;
+    size: number | undefined;
   };
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="row q-col-gutter-sm q-form-email q-form-builder-element">
-    <div class="col-12 col-md-6">
+    <div class="col-12">
       <q-input
         v-model="innerValue"
         type="email"

@@ -12,8 +12,10 @@
     >
       <template #item="{ element, index }">
         <div
-          class="element-container"
-          :class="{ selected: isSelectedForEdit && isSelectedForEdit(index) }"
+          :class="columnClass(index)"
+          :style="{
+            padding: `${options.padding}px`,
+          }"
           @click.prevent.stop="() => onClick(index)"
         >
           <component-container :value="element" :ref="element.cid" />
@@ -71,6 +73,8 @@ export default defineComponent({
       type: Object,
       default: () => ({
         fields: [],
+        size: 2,
+        padding: 4,
         description: '',
       }),
     },
@@ -88,6 +92,14 @@ export default defineComponent({
   setup(props, { emit }) {
     const { innerValue, hint } = useForm(props);
     const fields = ref(props.options.fields || []);
+
+    const columnClass = (index: number) => {
+      return `col-${12 / (props.options.size || 2)} element-container ${
+        props.isSelectedForEdit && props.isSelectedForEdit(index)
+          ? 'selected'
+          : ''
+      }`;
+    };
 
     watch(
       () => fields.value,
@@ -111,6 +123,7 @@ export default defineComponent({
       innerValue,
       fields,
       hint,
+      columnClass,
       destinationOptions: {
         name: 'q-form-builder',
         pull: true,

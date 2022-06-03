@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="row q-col-gutter-sm">
-      <div class="col-12 col-md-6">
+      <div class="col-12">
         <q-input
           v-model="innerValue.ccname"
           label="Name on card"
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="row q-col-gutter-sm">
-      <div class="col-12 col-md-6">
+      <div class="col-12">
         <q-input
           v-model="innerValue.ccnum"
           label="Card number"
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="row q-col-gutter-sm">
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-12 col-sm-6">
         <q-select
           v-model="innerValue.expmonth"
           :options="expMonths"
@@ -33,7 +33,7 @@
           :rules="getRules('expmonth', required)"
         />
       </div>
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-12 col-sm-6">
         <q-select
           v-model="innerValue.expyear"
           :options="expYears"
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="row q-col-gutter-sm">
-      <div class="col-12 col-sm-6 col-md-3">
+      <div class="col-12">
         <q-input
           v-model="innerValue.cvv"
           label="CVV"

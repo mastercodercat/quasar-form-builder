@@ -132,6 +132,10 @@
               <div
                 v-for="(fld, idx) in field.options.fields"
                 :key="`grid-${idx}`"
+                :class="columnClass(field.options.size)"
+                :style="{
+                  padding: `${field.options.padding || 4}px`,
+                }"
               >
                 <component
                   v-model="fieldData[fld.cid]"
@@ -154,7 +158,7 @@
 
 <script>
 import { uid, useQuasar } from 'quasar';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import Draggable from 'vuedraggable';
 import { useQuery, useMutation } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
@@ -262,6 +266,10 @@ export default defineComponent({
       if (evt.added) {
         selectForEdit(evt.added.element);
       }
+    };
+
+    const columnClass = (size) => {
+      return `col-${12 / (size || 2)} element-container`;
     };
 
     const deleteField = (index, cid) => {
@@ -406,6 +414,7 @@ export default defineComponent({
       deleteField,
       duplicateField,
       getElement,
+      columnClass,
       onChange,
       onGridChange,
       onGridClick,

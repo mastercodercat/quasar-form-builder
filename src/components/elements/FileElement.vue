@@ -1,13 +1,14 @@
 <template>
   <div class="q-form-file-upload q-form-builder-element">
     <div class="row q-col-gutter-sm">
-      <div class="col-12 col-md-6">
+      <div class="col-12">
         <q-uploader
           accept=".jpg, .pdf, image/*"
           auto-upload
           :url="uploadPath"
           @uploading="onStartUpload"
           @uploaded="onUpload"
+          class="full-width"
           :color="hasError ? 'negative' : 'teal'"
           :label="uploading ? 'Uploading...' : getLabel"
           flat

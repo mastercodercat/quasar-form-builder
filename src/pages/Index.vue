@@ -34,7 +34,11 @@
           v-if="field.type !== 'grid'"
         />
         <div class="row" v-else>
-          <div v-for="(fld, idx) in field.options.fields" :key="`grid-${idx}`">
+          <div
+            v-for="(fld, idx) in field.options.fields"
+            :key="`grid-${idx}`"
+            :class="columnClass(fld.options?.size)"
+          >
             <component
               v-model="fieldData[fld.cid]"
               v-bind:is="getElement(fld)"
@@ -53,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 import { Element } from 'components/models';
@@ -127,12 +131,17 @@ export default defineComponent({
       return `${elementName}Element`;
     };
 
+    const columnClass = (size: number | undefined) => {
+      return `col-${12 / (size || 2)} element-container`;
+    };
+
     return {
       result,
       loading,
       current,
       fieldData,
       onClick,
+      columnClass,
       getElement,
     };
   },
