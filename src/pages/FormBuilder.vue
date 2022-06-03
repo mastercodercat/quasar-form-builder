@@ -158,6 +158,7 @@ import { defineComponent, ref } from 'vue';
 import Draggable from 'vuedraggable';
 import { useQuery, useMutation } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
+import { useRouter } from 'vue-router';
 
 import ElementContainer from 'components/ElementContainer.vue';
 import ElementOptions from 'components/options/ElementOptions.vue';
@@ -204,6 +205,7 @@ export default defineComponent({
   },
   setup() {
     const $q = useQuasar();
+    const router = useRouter();
     const tab = ref('add');
     const fields = ref([]);
     const fieldData = ref([]);
@@ -330,6 +332,7 @@ export default defineComponent({
         form,
       });
       $q.notify(`Form ${name.value} created!`, 'success');
+      router.push('/');
       console.log(result);
     };
 

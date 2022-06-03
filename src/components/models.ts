@@ -5,6 +5,7 @@ export interface Element {
   cid: string;
   id?: string;
   options: {
+    fields: Array<Element>;
     description: string;
   };
 }
