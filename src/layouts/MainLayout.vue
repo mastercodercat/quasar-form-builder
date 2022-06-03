@@ -2,7 +2,9 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title> Form Builder </q-toolbar-title>
+        <q-toolbar-title>
+          <router-link to="/" class="text-white"> Form Builder </router-link>
+        </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
