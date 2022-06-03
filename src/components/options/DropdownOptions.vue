@@ -1,38 +1,33 @@
 <template>
   <div class="q-pa-md">
-    <q-list>
-      <q-item-label header>Options</q-item-label>
-      <q-item v-for="(option, index) in innerValue.options" :key="index" dense>
-        <q-item-section>
-          <q-input dense v-model="option.label" />
-        </q-item-section>
-        <q-item-section side>
-          <q-btn round flat size="xs" icon="delete" @click="removeItem(index)">
-            <q-tooltip>Delete this option</q-tooltip>
-          </q-btn>
-        </q-item-section>
-      </q-item>
-      <q-item dense>
-        <q-item-section>
-          <q-input dense filled v-model="newItem.label" />
-        </q-item-section>
-        <q-item-section side>
-          <q-btn round size="xs" icon="add" @click="addItem">
-            <q-tooltip>Add this option</q-tooltip>
-          </q-btn>
-        </q-item-section>
-      </q-item>
-    </q-list>
+    <q-select
+      v-model="list"
+      label="Collections"
+      :options="loading ? [] : result.allDropdownLists"
+      option-label="name"
+      option-value="id"
+      :rules="[(val) => !!val || 'This field is required']"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType } from 'vue';
+import { defineComponent, ref, PropType, watch } from 'vue';
+import { useQuery } from '@vue/apollo-composable';
+import gql from 'graphql-tag';
 
 interface DropdownBoxValue {
   options: Array<{
     checked: boolean;
     label: string;
+  }>;
+}
+
+interface DropdownList {
+  id: string;
+  name: string;
+  items: Array<{
+    name: string;
   }>;
 }
 
@@ -49,35 +44,48 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const list = ref<DropdownList | null>(null);
     const innerValue = ref(props.value);
 
-    const newItem = ref({
-      checked: false,
-      label: '',
-    });
-
-    const addItem = () => {
-      if (!innerValue.value.options) {
-        innerValue.value.options = [];
+    watch(
+      () => list.value,
+      (value) => {
+        if (value !== null) {
+          innerValue.value.options = value.items.map((item) => ({
+            checked: false,
+            label: item.name,
+          }));
+          console.log(innerValue.value.options);
+        }
       }
-      innerValue.value.options.push({
-        label: newItem.value.label,
-        checked: newItem.value.checked,
-      });
-      newItem.value = {
-        checked: false,
-        label: '',
-      };
-    };
-    const removeItem = (index: number) => {
-      innerValue.value.options.splice(index, 1);
-    };
+    );
+
+    const { result, loading } = useQuery(gql`
+      query allDropdownLists {
+        allDropdownLists {
+          id
+          name
+          createdAt
+          updatedAt
+          items {
+            name
+          }
+        }
+      }
+    `);
+
+    watch(
+      () => result.value,
+      (value) => {
+        console.log(value);
+      }
+    );
 
     return {
       innerValue,
-      newItem,
-      addItem,
-      removeItem,
+      result,
+      loading,
+      list,
     };
   },
 });

@@ -5,12 +5,7 @@
         {{ typeName }}
       </q-chip>
     </div>
-    <q-input
-      dense
-      v-model="innerValue.label"
-      placeholder="Label"
-      label="Label to display"
-    />
+    <q-input dense v-model="innerValue.label" label="Label to display" />
     <q-input
       dense
       v-model="innerValue.options.description"
